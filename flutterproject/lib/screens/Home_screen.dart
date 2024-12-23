@@ -1,10 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutterproject/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterproject/screens/Scan.dart';
 import 'Home_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
-  
   _HomeScreenState createState() => _HomeScreenState();
 }
 

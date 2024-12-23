@@ -1,17 +1,75 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
-class ScanScreen extends StatelessWidget {
+class ScanScreen extends StatefulWidget {
+  @override
+  _ScanScreenState createState() => _ScanScreenState();
+}
+
+class _ScanScreenState extends State<ScanScreen> {
+  final ImagePicker _picker = ImagePicker();
+  XFile? _image;
+
+  // Fonction pour ouvrir la caméra
+  Future<void> _openCamera() async {
+    try {
+      final XFile? pickedImage = await _picker.pickImage(source: ImageSource.camera);
+      if (pickedImage != null) {
+        setState(() {
+          _image = pickedImage;
+        });
+      }
+    } catch (e) {
+      _showErrorDialog('Error accessing the camera: $e');
+    }
+  }
+
+  // Fonction pour ouvrir la galerie
+  Future<void> _openGallery() async {
+    try {
+      final XFile? pickedImage = await _picker.pickImage(source: ImageSource.gallery);
+      if (pickedImage != null) {
+        setState(() {
+          _image = pickedImage;
+        });
+      }
+    } catch (e) {
+      _showErrorDialog('Error accessing the gallery: $e');
+    }
+  }
+
+  // Fonction pour afficher un message d'erreur
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Error'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          // Image de fond
+          // Fond dégradé
           Positioned.fill(
             child: Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [ Color.fromARGB(255, 208, 215, 232), Color.fromARGB(255, 161, 180, 222)],
+                  colors: [
+                    Color.fromARGB(255, 208, 215, 232),
+                    Color.fromARGB(255, 161, 180, 222)
+                  ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
@@ -25,7 +83,6 @@ class ScanScreen extends StatelessWidget {
             child: IconButton(
               icon: const Icon(Icons.close, size: 30, color: Colors.white),
               onPressed: () {
-                // Action pour annuler et revenir en arrière
                 Navigator.pop(context);
               },
             ),
@@ -45,76 +102,67 @@ class ScanScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 30),
-              // Icône de caméra
-              Icon(
-                Icons.camera_alt,
-                size: 100,
-                color: Colors.white.withOpacity(0.8),
-              ),
+              // Image ou icône par défaut
+              _image != null
+                  ? Image.file(
+                      File(_image!.path),
+                      height: 300,
+                      width: 300,
+                      fit: BoxFit.cover,
+                    )
+                  : Icon(
+                      Icons.camera_alt,
+                      size: 100,
+                      color: Colors.white.withOpacity(0.8),
+                    ),
               const SizedBox(height: 20),
-              // Bouton principal
-              ElevatedButton(
-                onPressed: () {
-                  // Action pour démarrer le scan
-                  Navigator.pushNamed(context, '/startScanning');
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0F1F45),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                ),
-                child: const Text(
-                  'Start Scanning',
-                  
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 40),
-              // Options supplémentaires
+              // Boutons pour accéder à la caméra et à la galerie
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  // Bouton pour utiliser la caméra
                   ElevatedButton.icon(
-                    onPressed: () {
-                      // Action pour ouvrir la caméra
-                      Navigator.pushNamed(context, '/camera');
-                    },
+                    onPressed: _openCamera,
                     icon: const Icon(Icons.camera),
                     label: const Text('Use Camera'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     ),
                   ),
-                  // Bouton pour télécharger depuis la galerie
                   ElevatedButton.icon(
-                    onPressed: () {
-                      // Action pour ouvrir la galerie
-                      Navigator.pushNamed(context, '/gallery');
-                    },
+                    onPressed: _openGallery,
                     icon: const Icon(Icons.photo),
                     label: const Text('Upload from Gallery'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
+                      backgroundColor: const Color.fromARGB(255, 248, 249, 250),
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     ),
                   ),
-                  const SizedBox(height: 50),
-              
                 ],
               ),
+              const SizedBox(height: 20),
+              // Bouton "Result" visible uniquement si une image est sélectionnée
+              if (_image != null)
+                ElevatedButton(
+                  onPressed: () {
+                    // Action pour afficher les résultats
+                    //Navigator.pushNamed(context, '/result');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 19, 22, 95),
+                    padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  child: const Text(
+                    'Result',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
             ],
           ),
         ],
