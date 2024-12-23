@@ -4,6 +4,7 @@ import 'screens/Landing_screen.dart';
 import 'screens/Login_screen.dart';
 import 'screens/Signup_screen.dart';
 import 'screens/Home_screen.dart';
+import 'screens/Scan.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,8 +22,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginScreen(),
         '/register': (context) => const RegisterScreen(),
         '/home': (context) => HomeScreen(),
-        //'/image': (context) => ImageScreen(),
-
+        '/scan': (context) => ScanScreen(),
         // Ajoute les autres routes
       },
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterproject/screens/Scan.dart';
 import 'Home_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -228,7 +229,9 @@ class AnnPage extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     // Ajoutez l'action à effectuer lors du clic sur le bouton
-                    Navigator.pushNamed(context, '/scan');
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => ScanScreen()));
+                    
+              
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFFF4D4D),
@@ -280,7 +283,7 @@ class CnnPage extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     // Ajoutez l'action à effectuer lors du clic sur le bouton
-                    Navigator.pushNamed(context, '/scan');
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => ScanScreen()));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF0F1F45),
