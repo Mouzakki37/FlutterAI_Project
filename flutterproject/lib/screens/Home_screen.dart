@@ -207,7 +207,49 @@ class AnnPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('ANN Detection')),
-      body: const Center(child: Text('This is the ANN Detection Page')),
+      body: Stack(
+        children: [
+          // Image en arrière-plan
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            child: Image.asset(
+              'assets/images/ANN.png', // Remplacez par le chemin de votre image
+              fit: BoxFit.cover,
+            ),
+          ),
+          // Contenu principal
+          Center(
+            child : Column(
+                mainAxisSize: MainAxisSize.min, // Centre le contenu verticalement
+              children: [
+                const SizedBox(height: 540),
+                // Bouton
+                ElevatedButton(
+                  onPressed: () {
+                    // Ajoutez l'action à effectuer lors du clic sur le bouton
+                    Navigator.pushNamed(context, '/scan');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFFF4D4D),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 11),
+                  ),
+                  child: const Text(
+                    'Scan Me',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -217,7 +259,49 @@ class CnnPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('CNN Detection')),
-      body: const Center(child: Text('This is the CNN Detection Page')),
+      body: Stack (
+        children: [
+          // Image en arrière-plan
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            child: Image.asset(
+              'assets/images/CNN.png', // Remplacez par le chemin de votre image
+              fit: BoxFit.cover,
+            ),
+          ),
+          // Contenu principal
+          Center(
+            child : Column(
+                mainAxisSize: MainAxisSize.min, // Centre le contenu verticalement
+              children: [
+                const SizedBox(height: 540),
+                // Bouton
+                ElevatedButton(
+                  onPressed: () {
+                    // Ajoutez l'action à effectuer lors du clic sur le bouton
+                    Navigator.pushNamed(context, '/scan');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF0F1F45),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 11),
+                  ),
+                  child: const Text(
+                    'Scan Me',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

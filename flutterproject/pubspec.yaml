@@ -98,6 +98,9 @@ flutter:
     - assets/images/step1.png
     - assets/images/step2.png
     - assets/images/step3.png
+    - assets/images/ANN.png
+    - assets/images/CNN.png
+
 
 
 
